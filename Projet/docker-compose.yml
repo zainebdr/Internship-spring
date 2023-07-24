@@ -1,0 +1,28 @@
+version: '2.15.1'
+
+services:
+  # MySQL Service
+  mysql:
+    image: mysql:8.0.31
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: springdb
+      
+  # Spring Boot Service
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-app-container
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/springdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      # Add other environment variables for your Spring Boot app, if needed
+    ports:
+      - 8080:8080
