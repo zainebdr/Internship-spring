@@ -1,0 +1,25 @@
+#version de l'API Kubernetes à utiliser pour créer ou modifier l'objet
+apiVersion: apps/v1
+#define various resources in a Kubernetes cluster
+kind: Deployment
+# identifie ( identifier et à organiser les objets dans le cluster ) et organise les objets dans le cluster.
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1 # nombre de répliques du déploiement
+  selector: #comment les pods sont sélectionnés.
+    matchLabels:
+      app: mysql
+  template: #définit le modèle pour créer de nouveaux pods
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql-container
+          image: zaienbdr/mysql:latest
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              value: springdb

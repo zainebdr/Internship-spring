@@ -1,0 +1,34 @@
+#version de l'API Kubernetes à utiliser pour créer ou modifier l'objet
+apiVersion: apps/v1
+#define various resources in a Kubernetes cluster
+kind: Deployment
+# identifie ( identifier et à organiser les objets dans le cluster ) et organise les objets dans le cluster.
+metadata:
+  name: spring-app-deployment
+spec:
+  replicas: 2 # nombre de répliques du déploiement
+  selector: #comment les pods sont sélectionnés.
+    matchLabels:
+      app: spring-app
+  template: #définit le modèle pour créer de nouveaux pods
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+        - name: spring-app-container
+          image: zaienbdr/spring-app-container:v1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysql:3306/springdb"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              # to reference a Secret, ConfigMap
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+            # Add other environment variables for your Spring Boot app, if needed

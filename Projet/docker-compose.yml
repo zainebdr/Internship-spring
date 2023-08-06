@@ -1,5 +1,4 @@
 version: '2.15.1'
-
 services:
   # MySQL Service
   mysql:
@@ -23,6 +22,5 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/springdb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD:
-      # Add other environment variables for your Spring Boot app, if needed
     ports:
       - 8080:8080
